@@ -1,1 +1,4 @@
-keys.txt
+.keys.txt
+.serverdata.db
+.twab.txt
+.counter.py
