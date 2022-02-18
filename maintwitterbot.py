@@ -5,7 +5,7 @@ import json
 # created by Jack Matthews/ @makozort
 # feel free to use the code anywhere but please credit me
 
-with open(f"./keys.json", 'r') as f:
+with open("/keys.json", 'r') as f:
   data = json.load(f)                   # read in a json
   consumer_key = data["consumerkey"]
   consumer_secret = data["consumersecret"]
@@ -28,12 +28,11 @@ substring = "This week at Bungie,"
 for tweet in tweets.data:
     if  substring in tweet.text: # only grab the id
         id = tweet.id
-        file = open("tweets.txt", "r")
-        for tweetid in file:
-            if (tweetid.rstrip("\n")) == str(id): # this loop here checks our list to see if it has already been retweeted, if so, it wont continue
-                print("tweet already done")
-                file.close()
-                exit()
+        with open("tweets.txt", 'r') as f:
+            for tweetid in f:
+                if (tweetid.rstrip("\n")) == str(id): # this loop here checks our list to see if it has already been retweeted, if so, it wont continue
+                    print("tweet already done")
+                    exit()
             
         tweetdate = (tweet.created_at)
         print (tweetdate)
@@ -41,12 +40,11 @@ for tweet in tweets.data:
         date -= timedelta(days=1) # take 1 day away from system time cause I run my server in AEDT lol
         if tweetdate.date() == date.date():
             client.create_tweet(text="Where TWAB? TWAB here:", quote_tweet_id=id)
-            file = open("tweets.txt", "a")
-            file.write(str(id)) # write this tweets id to a file so they bot does not tweet it over and over
-            file.close()
-            with open(f"./twab.txt", 'w') as f: # overwrite last weeks twab TODO: add backlogs via date
-                f.write("https://twitter.com/twitter/statuses/"+(str(id).rstrip("\n")))  
-            import twabnow
-            twabnow()
+            with open("tweets.txt", 'a') as f:
+                f.write(str(id)) # write this tweets id to a file so they bot does not tweet it over and over
+                with open("twab.txt", 'w') as f: # overwrite last weeks twab TODO: add backlogs sorted by date
+                    f.write("https://twitter.com/twitter/statuses/"+(str(id).rstrip("\n")))  
+                import twabnow
+                twabnow()
             
 

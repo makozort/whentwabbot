@@ -5,7 +5,7 @@ import sqlite3
 
 client = commands.Bot(command_prefix = "~", activity=discord.activity.Streaming(name=("created by makozort"), url="https://www.twitch.tv/makozort"))
 
-conn = sqlite3.connect(f"./serverdata.db")  
+conn = sqlite3.connect("/serverdata.db")  
 cur = conn.cursor()
 
 
@@ -26,7 +26,7 @@ async def sendit():
     if channelid != ("0"):
       print("sending twab to " + channelid)
       channel = client.get_channel(int(channelid))      # get all channel ids and if they are not 0, (blank) message them the latest twab
-      with open(f"./twab.txt", 'r') as f:
+      with open("/twab.txt", 'r') as f:
         url = f.readline()
 
         await channel.send("A NEW TWAB JUST CAME OUT: " + (url))

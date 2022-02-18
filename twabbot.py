@@ -24,15 +24,13 @@ conn.commit()
 class commands:
     
 
-    
-
     @client.event
     async def on_ready():
         print("bot running on account {0.user}".format(client))
 
     @client.event
     async def on_guild_remove(guild):
-        cur.execute("DELETE FROM guilds WHERE guildId="+ str(guild.id) +";") # delete guild from database
+        cur.execute("DELETE FROM guilds WHERE guildId=?;", guild.id) # delete guild from database
         conn.commit() 
         print("left " + guild.name)
 
