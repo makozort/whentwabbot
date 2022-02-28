@@ -33,18 +33,14 @@ for tweet in tweets.data:
                 if (tweetid.rstrip("\n")) == str(id): # this loop here checks our list to see if it has already been retweeted, if so, it wont continue
                     print("tweet already done")
                     exit()
-            
-        tweetdate = (tweet.created_at)
-        print (tweetdate)
-        date = datetime.today()
-        date -= timedelta(days=1) # take 1 day away from system time cause I run my server in AEDT lol
-        if tweetdate.date() == date.date():
-            client.create_tweet(text="Where TWAB? TWAB here:", quote_tweet_id=id)
-            with open("tweets.txt", 'a') as f:
-                f.write(str(id)) # write this tweets id to a file so they bot does not tweet it over and over
-                with open("twab.txt", 'w') as f: # overwrite last weeks twab TODO: add backlogs sorted by date
-                    f.write("https://twitter.com/twitter/statuses/"+(str(id).rstrip("\n")))  
-                import twabnow
-                twabnow()
-            
+                else:
+                    tweetdate = (tweet.created_at)
+                    client.create_tweet(text="Where TWAB? TWAB here:", quote_tweet_id=id)       
+                    with open("tweets.txt", 'a') as f:
+                        f.write(str(id)+"\n") # write this tweets id to a file so they bot does not tweet it over and over
+                        with open("twab.txt", 'w') as f: # overwrite last weeks twab TODO: add backlogs sorted by date
+                            f.write("https://twitter.com/twitter/statuses/"+(str(id).rstrip("\n")))
+                        import twabnow
+                        twabnow()
+
 
